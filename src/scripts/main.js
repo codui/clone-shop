@@ -86,29 +86,34 @@ function clickHandler(event) {
     function removeActiveClass(acitveElement) {
         acitveElement.classList.remove('slider-dots__item_active');
     }
+
+    let leftClick = event.target.classList.contains('slider__arrows_left');
+    let rightClick = event.target.classList.contains('slider__arrows_right');
     
-    removeActiveClass(dotActiveNowElement);
-    // Processing click on left arrow
-    if (event.target.classList.contains('slider__arrows_left')) {
-        if (leftCoordinate === 0) {
-            nextNumberActiveElement = (dotsLiveCollection.length) - 1;
-            sliderRow.style.left = '-880px';
-        } else  {
-            nextNumberActiveElement = numberActiveElementNow - 1;
-            sliderRow.style.left = (leftCoordinate + widthSliderCell) + 'px';
+    if (leftClick || rightClick) {
+        removeActiveClass(dotActiveNowElement);
+        // Processing click on left arrow
+        if (leftClick) {
+            if (leftCoordinate === 0) {
+                nextNumberActiveElement = (dotsLiveCollection.length) - 1;
+                sliderRow.style.left = '-880px';
+            } else {
+                nextNumberActiveElement = numberActiveElementNow - 1;
+                sliderRow.style.left = (leftCoordinate + widthSliderCell) + 'px';
+            }
         }
-    }
-    // Processing click on right arrow
-    if (event.target.classList.contains('slider__arrows_right')) {
-        if (leftCoordinate === -880) {
-            sliderRow.style.left = '0px';
-            nextNumberActiveElement = 0;
-        } else  {
-            nextNumberActiveElement = numberActiveElementNow + 1;
-            sliderRow.style.left = (leftCoordinate - widthSliderCell) + 'px';
+        // Processing click on right arrow
+        if (rightClick) {
+            if (leftCoordinate === -880) {
+                sliderRow.style.left = '0px';
+                nextNumberActiveElement = 0;
+            } else {
+                nextNumberActiveElement = numberActiveElementNow + 1;
+                sliderRow.style.left = (leftCoordinate - widthSliderCell) + 'px';
+            }
         }
+        dotsLiveCollection[nextNumberActiveElement].classList.add('slider-dots__item_active');
     }
-    dotsLiveCollection[nextNumberActiveElement].classList.add('slider-dots__item_active');
 }
 
 sliderBlock.addEventListener('click', clickHandler);
