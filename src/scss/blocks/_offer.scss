@@ -1,0 +1,191 @@
+/* --- OFFER BLOCK START --- */
+.offer-title {
+    @include fontFam($font-bold, $font-arial);
+    text-transform: uppercase;
+    text-align: center;
+
+    &__text {
+        background-color: $blue-light;
+        color: $main-white;
+        font-size: rems(32);
+        line-height: rems(36);
+        padding: rems(10) 0 rems(42);
+    }
+}
+
+/* --- TIMER-BLOCK START --- */
+.timer-block {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 rems(10) rems(7) rems(20);
+
+    &__text {
+        background: url(../images/icons/offer__clock_icon.webp) left 12% no-repeat;
+        font-size: rems(14);
+        line-height: rems(16);
+        margin: rems(15) 0 0;
+        max-width: rems(170);
+        padding: 0 0 0 rems(40);
+        width: 100%;
+    }
+}
+
+.timer {
+    display: flex;
+    width: 53%;
+
+    &__item {
+        flex-basis: 25%;
+        text-align: center;
+        .text {
+            font-size: rems(14);
+        }
+
+        &:not(:last-child) .count::after {
+            content: ':';
+            display: block;
+            line-height: rems(24);
+            position: absolute;
+            right: rems(-5);
+            top: 0;
+            width: rems(10);
+        }
+    }
+}
+
+.count {
+    @include fontFam($font-bold, $font-arial);
+    font-size: rems(30);
+    line-height: rems(30);
+    position: relative;
+}
+
+/* --- TIMER-BLOCK END --- */
+
+/* --- BENEFITS-TEXT START --- */
+.benefits-text {
+    background-color: $blue-light;
+    color: $main-white;
+    display: flex;
+    font-size: rems(14);
+    line-height: rems(16);
+    min-height: rems(56);
+    padding: rems(12) 0 rems(12) rems(18);
+
+    &__item {
+        max-width: 160px;
+        width: 100%;
+        padding: 0 0 0 44px;
+        position: relative;
+
+        &::before {
+            background: rgba(0, 0, 0, 0.1) center no-repeat;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            content: '';
+            display: block;
+            left: 0;
+            min-height: rems(36);
+            position: absolute;
+            top: rems(-2);
+            max-width: rems(36);
+            width: 100%;
+        }
+
+        &:nth-child(1)::before {
+            background-image: url(../images/icons/benefit_icon-1.webp);
+        }
+
+        &:nth-child(2)::before {
+            background-image: url(../images/icons/benefit_icon-2.webp);
+        }
+
+        &:nth-child(3)::before {
+            background-image: url(../images/icons/benefit_icon-3.webp);
+        }
+    }
+}
+
+/* --- BENEFITS-TEXT END --- */
+
+/* --- PRICE-BLOCK START --- */
+.price-block {
+    border-bottom: 1px solid $main-gray-3;
+    display: flex;
+}
+
+.price__item {
+    align-items: center;
+    display: flex;
+    flex-basis: 50%;
+    flex-flow: column nowrap;
+    font-size: rems(14);
+    min-height: rems(90);
+    line-height: rems(14);
+    padding: rems(15) 0 0 0;
+
+    .text {
+        padding-top: rems(5);
+        margin-bottom: rems(3);
+    }
+}
+
+.old-price {
+    border-right: 1px solid $main-gray-3;
+
+    .value {
+        @include fontFam($font-bold, $font-arial);
+        font-size: rems(30);
+        line-height: rems(30);
+        text-decoration: line-through;
+    }
+}
+
+.new-price {
+    .text {
+        background: $blood-red;
+        border-radius: rems(4);
+        color: $main-white;
+        padding: rems(5) rems(5) rems(5);
+    }
+
+    .value {
+        @include fontFam($font-bold, $font-arial);
+        font-size: rems(36);
+        line-height: rems(36);
+    }
+}
+
+/* --- PRICE-BLOCK END --- */
+
+.general-list {
+    margin: rems(25) rems(40) 0;
+
+    &__item {
+        background: url(../images/icons/tick_icon.webp) left rems(1) no-repeat;
+        padding: 0 0 0 rems(32);
+    }
+
+    &__item:not(:last-child) {
+        margin: 0 0 rems(12);
+    }
+}
+
+.offer__link {
+    margin: rems(25) auto rems(20);
+}
+
+.products-count {
+    margin: rems(20) 0 0;
+    text-align: center;
+
+    b {
+        background: $blue-light;
+        border-radius: rems(4);
+        color: $main-white;
+        margin: 0 rems(3);
+        padding: rems(3) rems(5);
+    }
+}
+
+/* --- OFFER BLOCK END --- */
