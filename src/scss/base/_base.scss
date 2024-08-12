@@ -37,7 +37,7 @@ img {
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
-    transition: box-shadow 0.3s, color 0.5s;
+    transition: box-shadow 0.3s, color 0.3s;
     width: 100%;
     &:hover {
         box-shadow: 0 0 rems(15) rgba(0, 0, 0, 0.3);
@@ -50,6 +50,10 @@ img {
     &:focus {
         box-shadow: 0 0 rems(15) rgba(0, 0, 0, 0.3);
         color: blueviolet;
+    }
+    &:focus-within {
+        box-shadow: none;
+        color: $main-black;
     }
 }
 
