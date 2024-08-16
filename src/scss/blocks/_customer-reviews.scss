@@ -31,7 +31,7 @@
 
     &__row {
         display: flex;
-        left: rems(-440);
+        left: 0;
         position: absolute;
         top: 0;
         width: rems(1320);
@@ -79,8 +79,15 @@
             display: inline-block;
             height: rems(10);
             margin: 0 rems(4);
+            padding: rems(6);
             vertical-align: middle;
             width: rems(10);
+            transition: all .4s ease 0s;
+
+            &:hover {
+                background: $blue-light;
+                cursor: pointer;
+            }
 
             &_active {
                 background: $blue-light;

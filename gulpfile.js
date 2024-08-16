@@ -89,8 +89,10 @@ function styles() {
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(postcss([autoprefixer()]))
-        .pipe(cleanCSS())
-        .pipe(rename({ basename: 'main', suffix: '.min' }))
+        // .pipe(cleanCSS()) // * DISCOMMENT TO COMPRESS
+        .pipe(rename({ basename: 'main', 
+            // suffix: '.min'  // * DISCOMMENT TO MINIFY
+        }))
         .pipe(sourcemaps.write('.'))
         .pipe(size({ showFiles: true }))
         .pipe(gulp.dest(paths.styles.dest))

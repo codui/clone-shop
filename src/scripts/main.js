@@ -1,15 +1,12 @@
 // The script must run after the HTML page has loaded
-$(document).ready(function () {
-    /**
- * TIMER
- */
-    // let hoursCellArray = document.getElementsByClassName('hours');
-    // let minutesCellArray = document.getElementsByClassName('minutes');
-    // let secondsCellArray = document.getElementsByClassName('seconds');
+/**
+* TIMER
+*/
 
-    let $hoursCellArray = $('.hours');
-    let $minutesCellArray = $('.minutes');
-    let $secondsCellArray = $('.seconds');
+function launchShowTimeToMidnight() {
+    let hoursCellArray = document.getElementsByClassName('hours');
+    let minutesCellArray = document.getElementsByClassName('minutes');
+    let secondsCellArray = document.getElementsByClassName('seconds');
 
     function showTimeToMidnight() {
         let now = new Date();
@@ -56,9 +53,15 @@ $(document).ready(function () {
 
         // Update timer cells
 
-        $hoursCellArray.text(getHoursToMidnight());
-        $minutesCellArray.text(getMinutesToMidnight());
-        $secondsCellArray.text(getSecondsToMidnight());
+        for (let item of hoursCellArray) {
+            item.textContent = getHoursToMidnight();
+        }
+        for (let item of minutesCellArray) {
+            item.textContent = getMinutesToMidnight();
+        }
+        for (let item of secondsCellArray) {
+            item.textContent = getSecondsToMidnight();
+        }
 
 
         setTimeout(showTimeToMidnight, 200);
@@ -67,71 +70,114 @@ $(document).ready(function () {
 
     showTimeToMidnight();
 
-
-    /**
-     * 
-     * 
-     * - - - SLIDER - - -
-     * 
-     * 
-     */
-    let sliderBlock = document.querySelector('.slider');
-    let sliderRow = document.querySelector('.slider__row');
-    // let arrowsBlock = document.querySelector('.slider__arrows');
-    let widthSliderCell = 440;
-    sliderRow.style.left = '-440px';
+}
 
 
-    function clickHandler(event) {
-        let leftCoordinate = Number(sliderRow.style.left.slice(0, -2))
-        let dotsLiveCollection = sliderBlock.getElementsByClassName('slider-dots__item');
-        let dotActiveNowElement = sliderBlock.getElementsByClassName('slider-dots__item_active')[0];
-        let numberActiveElementNow = Array.from(dotsLiveCollection).indexOf(dotActiveNowElement);
-        let nextNumberActiveElement = 0;
+launchShowTimeToMidnight();
 
-        function removeActiveClass(acitveElement) {
-            acitveElement.classList.remove('slider-dots__item_active');
+
+/**
+ * 
+ * 
+ * - - - SLIDER - - -
+ * 
+ * 
+ */
+function launchSlider() {
+    const sliderRow = document.querySelector('.slider__row');
+    const sliderCellArr = document.querySelectorAll('.slider__cell'); // NodeList, pseudo-array
+    const sliderCell = document.querySelector('.slider__cell');
+    const widthSliderCell = sliderCell.offsetWidth; // 440
+    
+    const dotsLiveCollection = document.getElementsByClassName('slider-dots__item'); // HTMLCollection
+    const sliderDots = document.querySelector('.slider-dots'); // DOM element
+
+    const leftButton = document.querySelector('.slider__arrows_left');
+    const rightButton = document.querySelector('.slider__arrows_right');
+
+    let nextActiveElementNumber = 0;
+    let offset = 0; // Offset from left side
+
+    function processLeftClickArrow(event, nextActiveElementNumber = 1) {
+        if (event.target.classList.contains('slider__arrows_left')) {
+            // Move slider dots
+            processDotClick(event);
         }
-
-        let leftClick = event.target.classList.contains('slider__arrows_left');
-        let rightClick = event.target.classList.contains('slider__arrows_right');
-
-        if (leftClick || rightClick) {
-            removeActiveClass(dotActiveNowElement);
-            // Processing click on left arrow
-            if (leftClick) {
-                if (leftCoordinate === 0) {
-                    nextNumberActiveElement = (dotsLiveCollection.length) - 1;
-                    sliderRow.style.left = '-880px';
-                } else {
-                    nextNumberActiveElement = numberActiveElementNow - 1;
-                    sliderRow.style.left = (leftCoordinate + widthSliderCell) + 'px';
-                }
-            }
-            // Processing click on right arrow
-            if (rightClick) {
-                if (leftCoordinate === -880) {
-                    sliderRow.style.left = '0px';
-                    nextNumberActiveElement = 0;
-                } else {
-                    nextNumberActiveElement = numberActiveElementNow + 1;
-                    sliderRow.style.left = (leftCoordinate - widthSliderCell) + 'px';
-                }
-            }
-            dotsLiveCollection[nextNumberActiveElement].classList.add('slider-dots__item_active');
+        offset = offset - (widthSliderCell * nextActiveElementNumber); // ! WORK HERE
+        if (offset < 0) {
+            offset = widthSliderCell * (sliderCellArr.length - 1);
         }
+        sliderRow.style.left = -offset + 'px';
     }
 
 
-    sliderBlock.addEventListener('click', clickHandler);
+    function processRightClickArrow(event, nextActiveElementNumber = 1) {
+        if (event.target.classList.contains('slider__arrows_right')) {
+            // Move slider dots
+            processDotClick(event);
+        }
+        offset = offset + (widthSliderCell * nextActiveElementNumber); // ! WORK HERE
+        if (offset > widthSliderCell * 2) {
+            offset = 0;
+        }
+        sliderRow.style.left = -offset + 'px';
+    }
 
 
-    /**
-     * 
-     * 
-     * - - - TELEGRAM BOT - - -
-     * 
-     */
+    function processDotClick(event) {
+        // DOM element
+        const dotActiveElement = document.getElementsByClassName('slider-dots__item_active')[0];
+        // NUMBER active dot
+        let dotActiveNumberElement = Array.from(dotsLiveCollection).indexOf(dotActiveElement);
+        // REMOVE from active dot class '.slider-dots__item_active'
+        dotActiveElement.classList.remove('slider-dots__item_active');
+        // Processing left click on arrow
+        if (event.target.classList.contains('slider__arrows_left')) {
+            nextActiveElementNumber--;
+            if (nextActiveElementNumber < 0) {
+                nextActiveElementNumber = dotsLiveCollection.length - 1;
+            }
+        }
+        // Processing right click on arrow
+        if (event.target.classList.contains('slider__arrows_right')) {
+            nextActiveElementNumber++;
+            if (nextActiveElementNumber > dotsLiveCollection.length - 1) {
+                nextActiveElementNumber = 0;
+            }
+        }
+        // Processing click on dots
+        if (event.target.classList.contains('slider-dots__item')) {
+            nextActiveElementNumber = Array.from(dotsLiveCollection).indexOf(event.target); // Number
+            // Processing move dot to the right
+            if (nextActiveElementNumber > dotActiveNumberElement && nextActiveElementNumber <= (dotsLiveCollection.length - 1)) {
+                processRightClickArrow(event, nextActiveElementNumber - dotActiveNumberElement);
+            }
+
+            // Processing move dot to the left
+            if (nextActiveElementNumber < dotActiveNumberElement && nextActiveElementNumber >= 0 ) {
+                processLeftClickArrow(event, dotActiveNumberElement - nextActiveElementNumber);
+            }
+        }
+        // Add to next active dot class '.slider-dots__item_active'
+        dotsLiveCollection[nextActiveElementNumber].classList.add('slider-dots__item_active');
+    }
+
+    leftButton.addEventListener('click', processLeftClickArrow);
+    rightButton.addEventListener('click', processRightClickArrow);
+    sliderDots.addEventListener('click', processDotClick)
+}
+
+
+launchSlider();
+
+
+/**
+ * 
+ * 
+ * - - - TELEGRAM BOT - - -
+ * 
+ */
+function launchTelegramBot() {
     // API - address where we send the request
     const API = '/api/send-message';
 
@@ -168,5 +214,7 @@ $(document).ready(function () {
             formBtn.textContent = 'ОФОРМИТИ ЗАМОВЛЕННЯ';
         }
     }
+}
 
-})
+
+launchTelegramBot();
