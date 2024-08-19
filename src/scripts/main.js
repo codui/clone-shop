@@ -88,7 +88,7 @@ function launchSlider() {
     const sliderCellArr = document.querySelectorAll('.slider__cell'); // NodeList, pseudo-array
     const sliderCell = document.querySelector('.slider__cell');
     const widthSliderCell = sliderCell.offsetWidth; // 440
-    
+
     const dotsLiveCollection = document.getElementsByClassName('slider-dots__item'); // HTMLCollection
     const sliderDots = document.querySelector('.slider-dots'); // DOM element
 
@@ -97,30 +97,48 @@ function launchSlider() {
 
     let nextActiveElementNumber = 0;
     let offset = 0; // Offset from left side
+    
+    let timeIsStop = false;
+    let timerId = null;
+    
 
     function processLeftClickArrow(event, nextActiveElementNumber = 1) {
-        if (event.target.classList.contains('slider__arrows_left')) {
-            // Move slider dots
-            processDotClick(event);
+        // Stopping the automatic operation of the slider
+        if (event.isTrusted) {
+            clearInterval(timerId);
+            timeIsStop = true;
         }
+        // Handling the movement of slider cells
         offset = offset - (widthSliderCell * nextActiveElementNumber); // ! WORK HERE
         if (offset < 0) {
             offset = widthSliderCell * (sliderCellArr.length - 1);
         }
         sliderRow.style.left = -offset + 'px';
+        // Moving slider points one at a time when the user clicks on the arrow
+        if (event.target.classList.contains('slider__arrows_left')) {
+            // Move slider dots
+            processDotClick(event);
+        }
     }
 
 
     function processRightClickArrow(event, nextActiveElementNumber = 1) {
-        if (event.target.classList.contains('slider__arrows_right')) {
-            // Move slider dots
-            processDotClick(event);
+        // Stopping the automatic operation of the slider
+        if (event.isTrusted) {
+            clearInterval(timerId);
+            timeIsStop = true;
         }
+        // Handling the movement of slider cells
         offset = offset + (widthSliderCell * nextActiveElementNumber); // ! WORK HERE
         if (offset > widthSliderCell * 2) {
             offset = 0;
         }
         sliderRow.style.left = -offset + 'px';
+        // Moving slider points one at a time when the user clicks on the arrow
+        if (event.target.classList.contains('slider__arrows_right')) {
+            // Move slider dots
+            processDotClick(event);
+        }
     }
 
 
@@ -152,15 +170,31 @@ function launchSlider() {
             if (nextActiveElementNumber > dotActiveNumberElement && nextActiveElementNumber <= (dotsLiveCollection.length - 1)) {
                 processRightClickArrow(event, nextActiveElementNumber - dotActiveNumberElement);
             }
-
             // Processing move dot to the left
-            if (nextActiveElementNumber < dotActiveNumberElement && nextActiveElementNumber >= 0 ) {
+            if (nextActiveElementNumber < dotActiveNumberElement && nextActiveElementNumber >= 0) {
                 processLeftClickArrow(event, dotActiveNumberElement - nextActiveElementNumber);
             }
         }
         // Add to next active dot class '.slider-dots__item_active'
         dotsLiveCollection[nextActiveElementNumber].classList.add('slider-dots__item_active');
     }
+
+
+    timerId = setInterval(function () {
+        rightButton.click();
+    }, 2000);
+
+    // setInterval(function () {
+    //     if (timeIsStop) {
+    //         timeIsStop = false;
+            
+    //         setTimeout(function () {
+    //             timerId = setInterval(function () {
+    //                 rightButton.click();
+    //             }, 2000);
+    //         }, 5000);
+    //     }
+    // }, 1000);
 
     leftButton.addEventListener('click', processLeftClickArrow);
     rightButton.addEventListener('click', processRightClickArrow);

@@ -89,9 +89,10 @@ function styles() {
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(postcss([autoprefixer()]))
-        // .pipe(cleanCSS()) // * DISCOMMENT TO COMPRESS
-        .pipe(rename({ basename: 'main', 
-            // suffix: '.min'  // * DISCOMMENT TO MINIFY
+        .pipe(cleanCSS()) // * DISCOMMENT TO COMPRESS
+        .pipe(rename({ 
+            basename: 'main', 
+            suffix: '.min'  // * DISCOMMENT TO MINIFY
         }))
         .pipe(sourcemaps.write('.'))
         .pipe(size({ showFiles: true }))
@@ -102,9 +103,9 @@ function styles() {
 function scripts() {
     return gulp.src(paths.scripts.src)
         .pipe(sourcemaps.init())
-        // .pipe(babel({ presets: ['@babel/env'] }))
-        // .pipe(uglify())
-        .pipe(concat('main.js')) // can minify - 'main.min.js'
+        .pipe(babel({ presets: ['@babel/env'] }))
+        .pipe(uglify())
+        .pipe(concat('main.min.js')) // can minify - 'main.min.js'
         .pipe(replace('process.env.TELEGRAM_CHAT_ID', JSON.stringify(process.env.TELEGRAM_CHAT_ID)))
         .pipe(replace('process.env.TELEGRAM_TOKEN', JSON.stringify(process.env.TELEGRAM_TOKEN)))
         .pipe(sourcemaps.write('.'))
