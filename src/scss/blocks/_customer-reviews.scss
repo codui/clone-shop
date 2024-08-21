@@ -97,7 +97,7 @@
         }
     }
 
-    &__arrows {
+    &__buttons {
         height: rems(600);
         left: 50%;
         position: absolute;
@@ -106,8 +106,8 @@
         width: rems(440);
     }
 
-    &__arrows_left,
-    &__arrows_right {
+    &__button_left,
+    &__button_right {
         background: $blue-light url(../images/slider/slider__arrows.webp) no-repeat;
         border-radius: 50%;
         cursor: pointer;
@@ -121,12 +121,12 @@
         width: 100%;
     }
 
-    &__arrows_left {
+    &__button_left {
         background-position: left center;
         left: rems(-20);
     }
 
-    &__arrows_right {
+    &__button_right {
         background-position: right center;
         right: rems(-20);
     }

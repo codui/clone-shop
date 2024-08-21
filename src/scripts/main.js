@@ -92,14 +92,14 @@ function launchSlider() {
     const dotsLiveCollection = document.getElementsByClassName('slider-dots__item'); // HTMLCollection
     const sliderDots = document.querySelector('.slider-dots'); // DOM element
 
-    const leftButton = document.querySelector('.slider__arrows_left');
-    const rightButton = document.querySelector('.slider__arrows_right');
+    const leftButton = document.querySelector('.slider__button_left');
+    const rightButton = document.querySelector('.slider__button_right');
 
     let nextActiveElementNumber = 0;
     let offset = 0; // Offset from left side
     
     let timeIsStop = false;
-    let timerId = null;
+    let timerId = 0;
     
 
     function processLeftClickArrow(event, nextActiveElementNumber = 1) {
@@ -115,7 +115,7 @@ function launchSlider() {
         }
         sliderRow.style.left = -offset + 'px';
         // Moving slider points one at a time when the user clicks on the arrow
-        if (event.target.classList.contains('slider__arrows_left')) {
+        if (event.target.classList.contains('slider__button_left')) {
             // Move slider dots
             processDotClick(event);
         }
@@ -135,7 +135,7 @@ function launchSlider() {
         }
         sliderRow.style.left = -offset + 'px';
         // Moving slider points one at a time when the user clicks on the arrow
-        if (event.target.classList.contains('slider__arrows_right')) {
+        if (event.target.classList.contains('slider__button_right')) {
             // Move slider dots
             processDotClick(event);
         }
@@ -150,14 +150,14 @@ function launchSlider() {
         // REMOVE from active dot class '.slider-dots__item_active'
         dotActiveElement.classList.remove('slider-dots__item_active');
         // Processing left click on arrow
-        if (event.target.classList.contains('slider__arrows_left')) {
+        if (event.target.classList.contains('slider__button_left')) {
             nextActiveElementNumber--;
             if (nextActiveElementNumber < 0) {
                 nextActiveElementNumber = dotsLiveCollection.length - 1;
             }
         }
         // Processing right click on arrow
-        if (event.target.classList.contains('slider__arrows_right')) {
+        if (event.target.classList.contains('slider__button_right')) {
             nextActiveElementNumber++;
             if (nextActiveElementNumber > dotsLiveCollection.length - 1) {
                 nextActiveElementNumber = 0;
@@ -183,18 +183,6 @@ function launchSlider() {
     timerId = setInterval(function () {
         rightButton.click();
     }, 2000);
-
-    // setInterval(function () {
-    //     if (timeIsStop) {
-    //         timeIsStop = false;
-            
-    //         setTimeout(function () {
-    //             timerId = setInterval(function () {
-    //                 rightButton.click();
-    //             }, 2000);
-    //         }, 5000);
-    //     }
-    // }, 1000);
 
     leftButton.addEventListener('click', processLeftClickArrow);
     rightButton.addEventListener('click', processRightClickArrow);
