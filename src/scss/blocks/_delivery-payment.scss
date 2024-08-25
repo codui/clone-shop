@@ -9,19 +9,33 @@
         justify-content: space-between;
         margin: 0;
         min-height: rems(204);
-        width: 100%;
+        // width: 100%;
+        @media screen and (max-width: rems(500)) {
+            align-items: center;
+            flex-flow: column;
+            padding: rems(10);
+        }
 
         &:nth-child(odd) .delivery-payment__text {
             padding: 0 rems(20) 0 0;
+            @media screen and (max-width: rems(500)) {
+                padding: 0;
+            }
         }
 
         &:nth-child(even) .delivery-payment__text {
             padding: 0 0 0 rems(20);
+            @media screen and (max-width: rems(500)) {
+                padding: 0;
+            }
         }
     }
 
     &__item_reverse {
         flex-flow: row-reverse;
+        @media screen and (max-width: rems(500)) {
+            flex-flow: column;
+        }
     }
 
     &__text {
@@ -31,6 +45,16 @@
         flex-flow: column;
         justify-content: center;
         text-align: center;
+        @media screen and (max-width: rems(500)) {
+            flex-basis: 0;
+        }
+
+        p {
+            padding: rems(10);
+            @media screen and (max-width: rems(500)) {
+                padding: 0 rems(10) rems(10) rems(10);
+            }
+        }
 
         &-title {
             color: $blue-light;
