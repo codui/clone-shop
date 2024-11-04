@@ -18,7 +18,7 @@
     background-color: $main-white;
     border-radius: rems(4);
     box-shadow: 0 -3px 0 #1185a9 inset;
-    min-height: rems(523);
+    // min-height: rems(523);
     position: relative;
 
     &__show {
@@ -61,8 +61,6 @@
         display: flex;
         font-size: 0;
         justify-content: space-between;
-        // bottom: rems(33);
-        // left: 0;
         left: 50%;
         letter-spacing: rems(-1);
         line-height: 0;
@@ -119,6 +117,10 @@
         top: 50%;
         transform: translateY(-50%);
         width: 100%;
+        
+        @media screen and (max-width: rems(500)) {
+            display: none;
+        }
     }
 
     &__button_left {

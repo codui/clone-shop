@@ -87,22 +87,42 @@ function launchSlider() {
     const sliderRow = document.querySelector('.slider__row');
     const sliderCellArr = document.querySelectorAll('.slider__cell'); // NodeList, pseudo-array
     const sliderCell = document.querySelector('.slider__cell');
-    const widthSliderCell = sliderCell.offsetWidth; // 440
-
+    
     const dotsLiveCollection = document.getElementsByClassName('slider-dots__item'); // HTMLCollection
     const sliderDots = document.querySelector('.slider-dots'); // DOM element
-
+    
     const leftButton = document.querySelector('.slider__button_left');
     const rightButton = document.querySelector('.slider__button_right');
-
+    
     let nextActiveElementNumber = 0;
     let offset = 0; // Offset from left side
     
     let timeIsStop = false;
     let timerId = 0;
     
+    let widthSliderCell = sliderCell.offsetWidth; // 440
+    let sliderWidth = 0;
+
+    
+    function resizeSlider() {
+        let slider = document.querySelector('.slider');
+        sliderWidth = slider.offsetWidth;
+        sliderDots.style.left = (sliderWidth / 2) + 'px';
+        sliderRow.style.width = `${sliderWidth * sliderCellArr.length}px`;
+        sliderCellArr.forEach( (item) => {
+            item.children[0].style.width = `${sliderWidth}px`;
+        })
+        if (window.screen.width < 501) {
+            slider.style.overflow = 'hidden';
+        } else {
+            slider.style.overflow = 'visible';
+        }
+        return sliderWidth;
+    }
+
 
     function processLeftClickArrow(event, nextActiveElementNumber = 1) {
+        widthSliderCell = resizeSlider();
         // Stopping the automatic operation of the slider
         if (event.isTrusted) {
             clearInterval(timerId);
@@ -123,6 +143,7 @@ function launchSlider() {
 
 
     function processRightClickArrow(event, nextActiveElementNumber = 1) {
+        widthSliderCell = resizeSlider();
         // Stopping the automatic operation of the slider
         if (event.isTrusted) {
             clearInterval(timerId);
@@ -187,6 +208,8 @@ function launchSlider() {
     leftButton.addEventListener('click', processLeftClickArrow);
     rightButton.addEventListener('click', processRightClickArrow);
     sliderDots.addEventListener('click', processDotClick)
+    window.addEventListener('resize', resizeSlider);
+    resizeSlider()
 }
 
 

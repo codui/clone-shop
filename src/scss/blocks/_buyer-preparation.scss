@@ -16,5 +16,10 @@
     margin-bottom: rems(30);
     padding: 0 rems(10);
     text-align: center;
+    @media screen and (max-width: rems(500)) {
+        font-size: rems(20);
+        margin-bottom: 0;
+        margin-top: rems(15);
+    }
 }
 /*--- BUYER-PREPARATION END ---*/

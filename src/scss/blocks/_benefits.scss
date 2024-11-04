@@ -7,20 +7,36 @@
     &-item {
         display: flex;
         margin: 0 rems(20) rems(30);
-        max-width: rems(440);
-        width: 100%;
+        // max-width: rems(440);
+        // width: 100%;
         min-height: rems(150);
+        @media screen and (max-width: rems(500)){
+            flex-flow: row wrap;
+            justify-content: center;
+        }
         
         &_reverse {
             flex-flow: row-reverse;
+            @media screen and (max-width: rems(500)){
+                flex-flow: row wrap;
+                text-align: center;
+            }
         }
 
         &__text {
             padding: 0 0 0 rems(20);
+            @media screen and (max-width: rems(500)){
+                text-align: center;
+                padding: 0;
+            }
 
             &_reverse {
                 padding: 0 rems(20) 0 0;
                 text-align: right;
+                @media screen and (max-width: rems(500)){
+                    text-align: center;
+                    padding: 0;
+                }
             }
         }
 
